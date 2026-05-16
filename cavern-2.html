@@ -317,8 +317,10 @@
       margin: 10px 0 0;
     }
   
-    details.room { display: block !important; }
-    section.dungeon { display: block !important; }</style>
+    section.dungeon { display: block !important; }
+    div.room { border: 1px solid var(--line); border-radius: 24px; background: var(--card); box-shadow: 0 10px 30px rgba(15,23,42,0.06); overflow: hidden; scroll-margin-top: 76px; }
+    .room-summary { margin: 0; padding: 18px 20px; font-size: 22px; font-weight: 900; letter-spacing: -0.03em; background: #fff; border-bottom: 1px solid var(--line); }
+    @media (max-width:520px) { .room-summary { font-size: 20px; } }</style>
 </head>
 <body>
   <div class="container">
@@ -348,8 +350,8 @@
     </header>
     <section class="dungeon">
       <div class="dungeon-title"><h2>1. 대공동</h2></div>
-      <div class="rooms"><details class="room" id="cavern-2" open>
-          <summary>2번방</summary>
+      <div class="rooms"><div class="room" id="cavern-2">
+          <h3 class="room-summary">2번방</h3>
           <div class="room-body">
             <div class="prep">
               <h4>준비물</h4>
@@ -367,14 +369,12 @@
               </ul>
             </div>
             <div class="key">핵심: 중앙 전투</div>
-            <div class="room-comment-section" id="comment-section-cavern-2"></div>
-            <button class="comment-toggle-btn" onclick="toggleRoomComment('cavern-2')">💬 이 방 메모 달기</button>
             <div class="room-actions">
               <a class="room-link secondary" href="cavern-1.html">← 이전 방<br>대공동 1번방</a>
               <a class="room-link" href="cavern-boss.html">다음 방 →<br>대공동 보스방</a>
             </div>
           </div>
-        </details></div>
+        </div></div>
     </section>
     <div style="margin-top:24px;padding:20px;border:1px solid #e5e7eb;border-radius:24px;background:#fff;">
       <div style="font-size:15px;font-weight:800;color:#667085;margin-bottom:12px;">&#128172; &#xB313;&#xAE00;</div>
