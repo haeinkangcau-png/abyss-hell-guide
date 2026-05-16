@@ -333,9 +333,10 @@
     .rb:hover { background: var(--card); }
     .rb-active { background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }
     .comment-form { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+    .cf-row { display:flex; gap:8px; }
     .cf-name,.cf-pw,.cf-msg { width:100%; box-sizing:border-box; padding:9px 13px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--text); font-size:14px; font-family:inherit; }
-    .cf-name { font-weight:700; }
-    .cf-pw { font-size:13px; }
+    .cf-name { font-weight:700; flex:1; min-width:0; }
+    .cf-pw { flex:0 0 110px; width:110px; font-size:12px; padding:9px 10px; }
     .cf-msg { min-height:80px; resize:vertical; }
     .cf-name::placeholder,.cf-pw::placeholder,.cf-msg::placeholder { color:var(--muted); opacity:1; }
     .cf-submit { align-self:flex-end; padding:8px 24px; background:var(--accent); color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; transition:opacity .12s; }
@@ -404,8 +405,10 @@
   <div style="font-size:15px;font-weight:800;color:var(--muted);margin-bottom:16px;">&#128172; &#xB313;&#xAE00;</div>
   <div id="comment-list"></div>
   <form class="comment-form" id="comment-form">
-    <input id="cf-name" class="cf-name" type="text" placeholder="&#xC774;&#xB984;" maxlength="30" required />
-    <input id="cf-pw" class="cf-pw" type="password" placeholder="&#xBE44;&#xBC00;&#xBC88;&#xD638; (&#xC120;&#xD0DD;)" maxlength="30" />
+    <div class="cf-row">
+      <input id="cf-name" class="cf-name" type="text" placeholder="&#xC774;&#xB984;" maxlength="30" required />
+      <input id="cf-pw" class="cf-pw" type="password" placeholder="&#xBE44;&#xBC00;&#xBC88;&#xD638;" maxlength="30" />
+    </div>
     <textarea id="cf-msg" class="cf-msg" placeholder="&#xB313;&#xAE00;&#xC744; &#xC785;&#xB825;&#xD558;&#xC138;&#xC694;..." maxlength="500" required></textarea>
     <button type="submit" class="cf-submit">&#xB4F1;&#xB85D;</button>
   </form>
