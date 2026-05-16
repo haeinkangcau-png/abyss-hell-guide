@@ -333,10 +333,11 @@
     .rb:hover { background: var(--card); }
     .rb-active { background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }
     .comment-form { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
-    .cf-name,.cf-msg { width:100%; box-sizing:border-box; padding:9px 13px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--text); font-size:14px; font-family:inherit; }
+    .cf-name,.cf-pw,.cf-msg { width:100%; box-sizing:border-box; padding:9px 13px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--text); font-size:14px; font-family:inherit; }
     .cf-name { font-weight:700; }
+    .cf-pw { font-size:13px; }
     .cf-msg { min-height:80px; resize:vertical; }
-    .cf-name::placeholder,.cf-msg::placeholder { color:var(--muted); opacity:1; }
+    .cf-name::placeholder,.cf-pw::placeholder,.cf-msg::placeholder { color:var(--muted); opacity:1; }
     .cf-submit { align-self:flex-end; padding:8px 24px; background:var(--accent); color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; transition:opacity .12s; }
     .cf-submit:hover { opacity:.85; } .cf-submit:disabled { opacity:.5; cursor:not-allowed; }
     .comment-item { padding:12px 0; border-bottom:1px solid var(--line); }
@@ -346,8 +347,8 @@
     .ci-date { font-size:12px; color:var(--muted); }
     .ci-body { font-size:14px; color:var(--text); white-space:pre-wrap; word-break:break-word; line-height:1.5; }
     .no-comments { color:var(--muted); font-size:14px; text-align:center; padding:20px 0; margin:0; }
-    .ci-del { margin-left:auto; padding:3px 10px; background:transparent; border:1px solid var(--danger); color:var(--danger); border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; transition:all .12s; }
-    .ci-del:hover { background:var(--danger); color:#fff; }</style>
+    .ci-del { margin-left:auto; padding:2px 5px; background:transparent; border:none; color:var(--muted); font-size:13px; cursor:pointer; transition:color .12s; opacity:0.5; line-height:1; }
+    .ci-del:hover { color:var(--danger); opacity:1; }</style>
 </head>
 <body>
   <div class="container">
@@ -419,6 +420,7 @@
   <div id="comment-list"></div>
   <form class="comment-form" id="comment-form">
     <input id="cf-name" class="cf-name" type="text" placeholder="&#xC774;&#xB984;" maxlength="30" required />
+    <input id="cf-pw" class="cf-pw" type="password" placeholder="&#xBE44;&#xBC00;&#xBC88;&#xD638; (&#xC120;&#xD0DD;)" maxlength="30" />
     <textarea id="cf-msg" class="cf-msg" placeholder="&#xB313;&#xAE00;&#xC744; &#xC785;&#xB825;&#xD558;&#xC138;&#xC694;..." maxlength="500" required></textarea>
     <button type="submit" class="cf-submit">&#xB4F1;&#xB85D;</button>
   </form>
@@ -434,7 +436,7 @@
     fetch(SB+'/rest/v1/comments?page_id=eq.'+PID+'&is_deleted=eq.false&order=created_at.desc&select=id,name,content,created_at',{cache:'no-store',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
     .then(function(r){return r.json();}).then(function(rows){
       if(!Array.isArray(rows)||!rows.length){lst.innerHTML='<p class="no-comments">\uC544\uC9C1 \uB313\uAE00\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.</p>';return;}
-      lst.innerHTML=rows.map(function(c){return '<div class="comment-item"><div class="ci-header"><span class="ci-name">'+esc(c.name)+'</span><span class="ci-date">'+fmt(c.created_at)+'</span><button class="ci-del" data-id="'+c.id+'">&#xC0AD;&#xC81C;</button></div><div class="ci-body">'+esc(c.content)+'</div></div>';}).join('');
+      lst.innerHTML=rows.map(function(c){return '<div class="comment-item"><div class="ci-header"><span class="ci-name">'+esc(c.name)+'</span><span class="ci-date">'+fmt(c.created_at)+'</span><button class="ci-del" data-id="'+c.id+'" title="\uC0AD\uC81C">&#x2715;</button></div><div class="ci-body">'+esc(c.content)+'</div></div>';}).join('');
     }).catch(function(){lst.innerHTML='<p class="no-comments">\uB313\uAE00\uC744 \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.</p>';});
   }
   document.getElementById('comment-form').addEventListener('submit',function(e){
@@ -443,7 +445,7 @@
     if(!n||!m)return;
     localStorage.setItem('cname',n);
     var b=this.querySelector('button');b.disabled=true;b.textContent='\uB4F1\uB85D \uC911...';
-    fetch(SB+'/rest/v1/comments',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({page_id:PID,name:n,content:m})})
+    fetch(SB+'/rest/v1/comments',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({page_id:PID,name:n,content:m,password:document.getElementById('cf-pw').value})})
     .then(function(r){if(r.ok){mi.value='';load();}else{alert('\uB4F1\uB85D \uC2E4\uD328.');}}).catch(function(){alert('\uB124\uD2B8\uC6CC\uD06C \uC624\uB958.');})
     .finally(function(){b.disabled=false;b.textContent='\uB4F1\uB85D';});
   });
@@ -452,10 +454,19 @@
     var id=e.target.getAttribute('data-id');
     var pw=prompt('\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD558\uC138\uC694');
     if(pw===null)return;
-    if(pw.trim()!=='freshpotato'){alert('\uBE44\uBC00\uBC88\uD638\uAC00 \uB2E4\uB985\uB2C8\uB2E4.');return;}
-    fetch(SB+'/rest/v1/comments?id=eq.'+id,{method:'PATCH',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify({is_deleted:true})})
-    .then(function(r){if(r.ok){load();}else{alert('\uC0AD\uC81C \uC2E4\uD328 ('+r.status+').');}})
-    .catch(function(){alert('\uB124\uD2B8\uC6CC\uD06C \uC624\uB958.');});
+    var h={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'};
+    var base=SB+'/rest/v1/comments?id=eq.'+id;
+    if(pw.trim()==='freshpotato'){
+      fetch(base,{method:'PATCH',headers:h,body:JSON.stringify({is_deleted:true})})
+      .then(function(r){if(r.ok){load();}else{alert('\uC0AD\uC81C \uC2E4\uD328 ('+r.status+').');}})
+      .catch(function(){alert('\uB124\uD2B8\uC6CC\uD06C \uC624\uB958.');});
+    } else {
+      h['Prefer']='return=representation';
+      fetch(base+'&password=eq.'+encodeURIComponent(pw.trim()),{method:'PATCH',headers:h,body:JSON.stringify({is_deleted:true})})
+      .then(function(r){return r.json();})
+      .then(function(rows){if(!Array.isArray(rows)||!rows.length){alert('\uBE44\uBC00\uBC88\uD638\uAC00 \uB2E4\uB985\uB2C8\uB2E4.');}else{load();}})
+      .catch(function(){alert('\uB124\uD2B8\uC6CC\uD06C \uC624\uB958.');});
+    }
   });
   load();
 })();
