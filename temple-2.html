@@ -331,7 +331,21 @@
     .room-bullets { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
     .rb { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 8px; border-radius: 10px; font-size: 13px; font-weight: 900; text-decoration: none; background: rgba(30,32,50,0.8); color: var(--accent); border: 1.5px solid var(--line); transition: background 0.12s; }
     .rb:hover { background: var(--card); }
-    .rb-active { background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }</style>
+    .rb-active { background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }
+    .comment-form { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+    .cf-name,.cf-msg { width:100%; box-sizing:border-box; padding:9px 13px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--text); font-size:14px; font-family:inherit; }
+    .cf-name { font-weight:700; }
+    .cf-msg { min-height:80px; resize:vertical; }
+    .cf-name::placeholder,.cf-msg::placeholder { color:var(--muted); opacity:1; }
+    .cf-submit { align-self:flex-end; padding:8px 24px; background:var(--accent); color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; transition:opacity .12s; }
+    .cf-submit:hover { opacity:.85; } .cf-submit:disabled { opacity:.5; cursor:not-allowed; }
+    .comment-item { padding:12px 0; border-bottom:1px solid var(--line); }
+    .comment-item:last-child { border-bottom:none; }
+    .ci-header { display:flex; align-items:center; gap:10px; margin-bottom:5px; }
+    .ci-name { font-size:13px; font-weight:800; color:var(--accent); }
+    .ci-date { font-size:12px; color:var(--muted); }
+    .ci-body { font-size:14px; color:var(--text); white-space:pre-wrap; word-break:break-word; line-height:1.5; }
+    .no-comments { color:var(--muted); font-size:14px; text-align:center; padding:20px 0; margin:0; }</style>
 </head>
 <body>
   <div class="container">
@@ -408,23 +422,42 @@
           </div>
         </div></div>
     </section>
-    <div style="margin-top:24px;padding:20px;border:1px solid var(--line);border-radius:24px;background:var(--card);">
-      <div style="font-size:15px;font-weight:800;color:var(--muted);margin-bottom:12px;">&#128172; &#xB313;&#xAE00;</div>
-        <div id="disqus_thread"></div>
-  <script>
-  var disqus_config = function () {
-    this.page.url = 'https://haeinkangcau-png.github.io/abyss-hell-guide/temple-2.html';
-    this.page.identifier = 'temple-2';
-    this.page.colorScheme = 'dark';
-  };
-  (function() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://abyss-hell.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-  })();
-  </script>
-    </div>
+<div style="margin-top:24px;padding:20px;border:1px solid var(--line);border-radius:24px;background:var(--card);">
+  <div style="font-size:15px;font-weight:800;color:var(--muted);margin-bottom:16px;">&#128172; &#xB313;&#xAE00;</div>
+  <div id="comment-list"></div>
+  <form class="comment-form" id="comment-form">
+    <input id="cf-name" class="cf-name" type="text" placeholder="?대쫫" maxlength="30" required />
+    <textarea id="cf-msg" class="cf-msg" placeholder="?볤????낅젰?섏꽭??.." maxlength="500" required></textarea>
+    <button type="submit" class="cf-submit">?깅줉</button>
+  </form>
+</div>
+<script>
+(function(){
+  var SB='https://gcenmjbozcqzyjrrkqqe.supabase.co',KEY='sb_publishable_DfGxSYyGAcapVlJD2bmTSQ_maezSrvp',PID='temple-2';
+  var ni=document.getElementById('cf-name'),mi=document.getElementById('cf-msg'),lst=document.getElementById('comment-list');
+  ni.value=localStorage.getItem('cname')||'';
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function fmt(t){var d=new Date(t);return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+  function load(){
+    fetch(SB+'/rest/v1/comments?page_id=eq.'+PID+'&order=created_at.desc&select=name,content,created_at',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
+    .then(function(r){return r.json();}).then(function(rows){
+      if(!rows.length){lst.innerHTML='<p class="no-comments">?꾩쭅 ?볤????놁뒿?덈떎.</p>';return;}
+      lst.innerHTML=rows.map(function(c){return '<div class="comment-item"><div class="ci-header"><span class="ci-name">'+esc(c.name)+'</span><span class="ci-date">'+fmt(c.created_at)+'</span></div><div class="ci-body">'+esc(c.content)+'</div></div>';}).join('');
+    }).catch(function(){lst.innerHTML='<p class="no-comments">?볤???遺덈윭?ㅼ? 紐삵뻽?듬땲??</p>';});
+  }
+  document.getElementById('comment-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var n=ni.value.trim(),m=mi.value.trim();
+    if(!n||!m)return;
+    localStorage.setItem('cname',n);
+    var b=this.querySelector('button');b.disabled=true;b.textContent='?깅줉 以?..';
+    fetch(SB+'/rest/v1/comments',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({page_id:PID,name:n,content:m})})
+    .then(function(r){if(r.ok){mi.value='';load();}else{alert('?깅줉 ?ㅽ뙣.');}}).catch(function(){alert('?ㅽ듃?뚰겕 ?ㅻ쪟.');})
+    .finally(function(){b.disabled=false;b.textContent='?깅줉';});
+  });
+  load();
+})();
+</script>
   </div>
 <script>document.addEventListener("click",function(e){var q=document.querySelector(".quick-menu");if(q&&!q.contains(e.target))q.removeAttribute("open");});</script>
 </body>
