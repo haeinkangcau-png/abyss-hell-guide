@@ -936,8 +936,11 @@
 
   function showRoom(roomId) {
     if (!roomId || roomId === 'top') roomId = 'cavern-1';
-    if (_roomIds.indexOf(roomId) === -1) return;
+    if (_roomIds.indexOf(roomId) === -1) roomId = 'cavern-1';
     if (_disqusRoom === roomId) return;
+
+    // URL을 ?room=ROOMID 형태로 업데이트 (Disqus가 실제 URL 기준으로 스레드 식별)
+    history.pushState(null, '', '?room=' + roomId);
 
     // 모든 방/섹션 숨기기
     document.querySelectorAll('details.room').forEach(function(r) {
@@ -960,16 +963,14 @@
     if (label) label.textContent = '💬 ' + room.querySelector('summary').textContent.trim() + ' 댓글';
 
     _disqusRoom = roomId;
-    var pageUrl = 'https://haeinkangcau-png.github.io/abyss-hell-guide/rooms/' + roomId;
 
-    // 기존 Disqus 완전 제거 후 재로드
+    // Disqus 완전 재로드 (URL이 바뀌었으므로 자동으로 다른 스레드 로드)
     document.getElementById('disqus_thread').innerHTML = '';
-    var oldScript = document.querySelector('script[src*="abyss-hell.disqus.com"]');
-    if (oldScript) oldScript.parentNode.removeChild(oldScript);
+    document.querySelectorAll('script[src*="disqus"]').forEach(function(el) { el.remove(); });
     window.DISQUS = undefined;
 
     window.disqus_config = function () {
-      this.page.url = pageUrl;
+      this.page.url = window.location.href; // ?room=ROOMID 포함한 고유 URL
       this.page.identifier = 'abyss-guide-' + roomId;
     };
     var s = document.createElement('script');
@@ -979,23 +980,21 @@
     document.body.appendChild(s);
   }
 
-  // 방 이동 링크 인터셉트
+  // 모든 링크 인터셉트 (해시 링크 → showRoom 처리)
   document.addEventListener('click', function(e) {
     var link = e.target.closest('a[href^="#"]');
     if (!link) return;
     e.preventDefault();
-    var roomId = link.getAttribute('href').replace('#', '');
-    history.pushState(null, '', '#' + roomId);
-    showRoom(roomId);
+    showRoom(link.getAttribute('href').replace('#', ''));
   });
 
   // 브라우저 뒤로/앞으로
   window.addEventListener('popstate', function() {
-    showRoom(window.location.hash.replace('#', '') || 'cavern-1');
+    showRoom(new URLSearchParams(window.location.search).get('room') || 'cavern-1');
   });
 
   // 초기 로드
-  showRoom(window.location.hash.replace('#', '') || 'cavern-1');
+  showRoom(new URLSearchParams(window.location.search).get('room') || 'cavern-1');
   </script>
 </body>
 </html>
