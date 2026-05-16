@@ -461,9 +461,9 @@
   <div style="font-size:15px;font-weight:800;color:var(--muted);margin-bottom:16px;">&#128172; &#xB313;&#xAE00;</div>
   <div id="comment-list"></div>
   <form class="comment-form" id="comment-form">
-    <input id="cf-name" class="cf-name" type="text" placeholder="?대쫫" maxlength="30" required />
-    <textarea id="cf-msg" class="cf-msg" placeholder="?볤????낅젰?섏꽭??.." maxlength="500" required></textarea>
-    <button type="submit" class="cf-submit">?깅줉</button>
+    <input id="cf-name" class="cf-name" type="text" placeholder="&#xC774;&#xB984;" maxlength="30" required />
+    <textarea id="cf-msg" class="cf-msg" placeholder="&#xB313;&#xAE00;&#xC744; &#xC785;&#xB825;&#xD558;&#xC138;&#xC694;..." maxlength="500" required></textarea>
+    <button type="submit" class="cf-submit">&#xB4F1;&#xB85D;</button>
   </form>
 </div>
 <script>
@@ -476,19 +476,19 @@
   function load(){
     fetch(SB+'/rest/v1/comments?page_id=eq.'+PID+'&order=created_at.desc&select=name,content,created_at',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
     .then(function(r){return r.json();}).then(function(rows){
-      if(!rows.length){lst.innerHTML='<p class="no-comments">?꾩쭅 ?볤????놁뒿?덈떎.</p>';return;}
+      if(!rows.length){lst.innerHTML='<p class="no-comments">\uC544\uC9C1 \uB313\uAE00\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.</p>';return;}
       lst.innerHTML=rows.map(function(c){return '<div class="comment-item"><div class="ci-header"><span class="ci-name">'+esc(c.name)+'</span><span class="ci-date">'+fmt(c.created_at)+'</span></div><div class="ci-body">'+esc(c.content)+'</div></div>';}).join('');
-    }).catch(function(){lst.innerHTML='<p class="no-comments">?볤???遺덈윭?ㅼ? 紐삵뻽?듬땲??</p>';});
+    }).catch(function(){lst.innerHTML='<p class="no-comments">\uB313\uAE00\uC744 \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.</p>';});
   }
   document.getElementById('comment-form').addEventListener('submit',function(e){
     e.preventDefault();
     var n=ni.value.trim(),m=mi.value.trim();
     if(!n||!m)return;
     localStorage.setItem('cname',n);
-    var b=this.querySelector('button');b.disabled=true;b.textContent='?깅줉 以?..';
+    var b=this.querySelector('button');b.disabled=true;b.textContent='\uB4F1\uB85D \uC911...';
     fetch(SB+'/rest/v1/comments',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({page_id:PID,name:n,content:m})})
-    .then(function(r){if(r.ok){mi.value='';load();}else{alert('?깅줉 ?ㅽ뙣.');}}).catch(function(){alert('?ㅽ듃?뚰겕 ?ㅻ쪟.');})
-    .finally(function(){b.disabled=false;b.textContent='?깅줉';});
+    .then(function(r){if(r.ok){mi.value='';load();}else{alert('\uB4F1\uB85D \uC2E4\uD328.');}}).catch(function(){alert('\uB124\uD2B8\uC6CC\uD06C \uC624\uB958.');})
+    .finally(function(){b.disabled=false;b.textContent='\uB4F1\uB85D';});
   });
   load();
 })();
