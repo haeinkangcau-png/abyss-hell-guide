@@ -345,7 +345,9 @@
     .ci-name { font-size:13px; font-weight:800; color:var(--accent); }
     .ci-date { font-size:12px; color:var(--muted); }
     .ci-body { font-size:14px; color:var(--text); white-space:pre-wrap; word-break:break-word; line-height:1.5; }
-    .no-comments { color:var(--muted); font-size:14px; text-align:center; padding:20px 0; margin:0; }</style>
+    .no-comments { color:var(--muted); font-size:14px; text-align:center; padding:20px 0; margin:0; }
+    .ci-del { margin-left:auto; padding:3px 10px; background:transparent; border:1px solid var(--danger); color:var(--danger); border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; transition:all .12s; }
+    .ci-del:hover { background:var(--danger); color:#fff; }</style>
 </head>
 <body>
   <div class="container">
@@ -428,10 +430,10 @@
   function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   function fmt(t){var d=new Date(t);return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
   function load(){
-    fetch(SB+'/rest/v1/comments?page_id=eq.'+PID+'&order=created_at.desc&select=name,content,created_at',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
+    fetch(SB+'/rest/v1/comments?page_id=eq.'+PID+'&order=created_at.desc&select=id,name,content,created_at',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
     .then(function(r){return r.json();}).then(function(rows){
       if(!rows.length){lst.innerHTML='<p class="no-comments">\uC544\uC9C1 \uB313\uAE00\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.</p>';return;}
-      lst.innerHTML=rows.map(function(c){return '<div class="comment-item"><div class="ci-header"><span class="ci-name">'+esc(c.name)+'</span><span class="ci-date">'+fmt(c.created_at)+'</span></div><div class="ci-body">'+esc(c.content)+'</div></div>';}).join('');
+      lst.innerHTML=rows.map(function(c){return '<div class="comment-item"><div class="ci-header"><span class="ci-name">'+esc(c.name)+'</span><span class="ci-date">'+fmt(c.created_at)+'</span><button class="ci-del" data-id="'+c.id+'">&#xC0AD;&#xC81C;</button></div><div class="ci-body">'+esc(c.content)+'</div></div>';}).join('');
     }).catch(function(){lst.innerHTML='<p class="no-comments">\uB313\uAE00\uC744 \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.</p>';});
   }
   document.getElementById('comment-form').addEventListener('submit',function(e){
@@ -443,6 +445,16 @@
     fetch(SB+'/rest/v1/comments',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({page_id:PID,name:n,content:m})})
     .then(function(r){if(r.ok){mi.value='';load();}else{alert('\uB4F1\uB85D \uC2E4\uD328.');}}).catch(function(){alert('\uB124\uD2B8\uC6CC\uD06C \uC624\uB958.');})
     .finally(function(){b.disabled=false;b.textContent='\uB4F1\uB85D';});
+  });
+  lst.addEventListener('click',function(e){
+    if(!e.target.classList.contains('ci-del'))return;
+    var id=e.target.getAttribute('data-id');
+    var pw=prompt('\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD558\uC138\uC694');
+    if(pw===null)return;
+    if(pw!=='freshpotato'){alert('\uBE44\uBC00\uBC88\uD638\uAC00 \uB2E4\uB985\uB2C8\uB2E4.');return;}
+    fetch(SB+'/rest/v1/comments?id=eq.'+id,{method:'DELETE',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
+    .then(function(r){if(r.ok){load();}else{alert('\uC0AD\uC81C \uC2E4\uD328.');}})
+    .catch(function(){alert('\uB124\uD2B8\uC6CC\uD06C \uC624\uB958.');});
   });
   load();
 })();
