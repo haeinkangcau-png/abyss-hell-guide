@@ -427,6 +427,7 @@
   function load(){
     fetch(SB+'/rest/v1/comments?page_id=eq.'+PID+'&order=created_at.desc&select=id,name,content,created_at',{cache:'no-store',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
     .then(function(r){return r.json();}).then(function(rows){
+      console.log('GET rows:',rows.length,JSON.stringify(rows).slice(0,200));
       if(!rows.length){lst.innerHTML='<p class="no-comments">\uC544\uC9C1 \uB313\uAE00\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.</p>';return;}
       lst.innerHTML=rows.map(function(c){return '<div class="comment-item"><div class="ci-header"><span class="ci-name">'+esc(c.name)+'</span><span class="ci-date">'+fmt(c.created_at)+'</span><button class="ci-del" data-id="'+c.id+'">&#xC0AD;&#xC81C;</button></div><div class="ci-body">'+esc(c.content)+'</div></div>';}).join('');
     }).catch(function(){lst.innerHTML='<p class="no-comments">\uB313\uAE00\uC744 \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.</p>';});
@@ -450,7 +451,7 @@
     console.log('DELETE id:',id);
     fetch(SB+'/rest/v1/comments?id=eq.'+id,{method:'DELETE',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Prefer':'return=representation'}})
     .then(function(r){console.log('DELETE status:',r.status);return r.text().then(function(t){return {ok:r.ok,status:r.status,body:t};});})
-    .then(function(res){if(res.ok){load();}else{alert('\uC0AD\uC81C \uC2E4\uD328 HTTP '+res.status+'\n'+res.body.slice(0,200));}})
+    .then(function(res){console.log('DELETE body:',res.body);if(res.ok){setTimeout(load,300);}else{alert('\uC0AD\uC81C \uC2E4\uD328 HTTP '+res.status+'\n'+res.body.slice(0,200));}}))
     .catch(function(e){console.error(e);alert('\uB124\uD2B8\uC6CC\uD06C \uC624\uB958.');});
   });
   load();
