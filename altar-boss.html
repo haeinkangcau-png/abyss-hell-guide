@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>?대퉬??吏??11~15 - 3. 신단 보스방</title>
+  <title>어비스 지옥 11~15 공략 - 3. 신단 보스방</title>
   <style>
     :root {
       --bg: #f6f7fb;
@@ -316,34 +316,6 @@
     .room-comment-section {
       margin: 10px 0 0;
     }
-
-    /* 방 단일 표시 */
-    details.room {
-      display: none;
-    }
-    details.room.active {
-      display: block;
-    }
-    section.dungeon {
-      display: none;
-    }
-    section.dungeon.active {
-      display: block;
-    }
-
-    .room-comment-fixed {
-      margin-top: 24px;
-      padding: 20px;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: var(--card);
-    }
-    .comment-room-label {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
   
     details.room { display: block !important; }
     section.dungeon { display: block !important; }</style>
@@ -351,9 +323,10 @@
 <body>
   <div class="container">
     <header>
-      <h1>?대퉬??吏??11~15 怨듬왂</h1>
-      <p class="subtitle">?怨듬룞 1踰덈갑遺???쒖감 吏꾪뻾??/p>
-      <p class="subtitle" style="font-size:12px;margin-top:6px;opacity:0.8;">湲곕낯 異쒖쿂: <a href="https://youtu.be/E6WqsuSFWGg?si=PNdSKxQuqY1YXaDf" target="_blank" rel="noopener noreferrer" style="color:inherit;">YouTube 怨듬왂 ?곸긽 (誘쇱감)</a> 湲곕컲 ?ш뎄??/p>
+      <h1>어비스 지옥 11~15 공략</h1>
+      <p class="subtitle">대공동 1번방부터 순차 진행용</p>
+      <p class="subtitle" style="font-size:12px; margin-top:6px; opacity:0.8;">기본 출처: <a href="https://youtu.be/E6WqsuSFWGg?si=PNdSKxQuqY1YXaDf" target="_blank" rel="noopener noreferrer" style="color:inherit;">YouTube 공략 영상 (민차)</a> 기반 재구성</p>
+
       <details class="quick-menu">
         <summary>☰</summary>
         <div class="quick-menu-panel">
@@ -424,6 +397,8 @@
               </ul>
             </div>
             <div class="key"><span class="danger">핵심:</span> 순응의 창은 브레이크 때만</div>
+            <div class="room-comment-section" id="comment-section-altar-boss"></div>
+            <button class="comment-toggle-btn" onclick="toggleRoomComment('altar-boss')">💬 이 방 메모 달기</button>
             <div class="room-actions">
               <a class="room-link secondary" href="altar-2.html">← 이전 방<br>신단 2번방</a>
               <a class="room-link" href="dump-1.html">다음 던전 →<br>폐기장 1번방</a>
@@ -432,21 +407,16 @@
         </details></div>
     </section>
     <div style="margin-top:24px;padding:20px;border:1px solid #e5e7eb;border-radius:24px;background:#fff;">
-      <div style="font-size:15px;font-weight:800;color:#667085;margin-bottom:12px;">?뮠 ??諛??볤?</div>
-      <div id="disqus_thread"></div>
+      <div style="font-size:15px;font-weight:800;color:#667085;margin-bottom:12px;">&#128172; &#xB313;&#xAE00;</div>
+        <div id="cusdis_thread"
+    data-host="https://cusdis.com"
+    data-app-id="0f63877a-7904-45cf-9b2b-7bc0d429c8cf"
+    data-page-id="altar-boss"
+    data-page-url="https://haeinkangcau-png.github.io/abyss-hell-guide/altar-boss.html"
+    data-page-title="보스방"
+  ></div>
+  <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
     </div>
   </div>
-  <script>
-  var disqus_config = function () {
-    this.page.url = window.location.href;
-    this.page.identifier = 'abyss-guide-altar-boss';
-  };
-  (function() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://abyss-hell.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-  })();
-  </script>
 </body>
 </html>
