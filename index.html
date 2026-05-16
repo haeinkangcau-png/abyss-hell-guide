@@ -316,6 +316,20 @@
     .room-comment-section {
       margin: 10px 0 0;
     }
+
+    /* 방 단일 표시 */
+    details.room {
+      display: none;
+    }
+    details.room.active {
+      display: block;
+    }
+    section.dungeon {
+      display: none;
+    }
+    section.dungeon.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -899,7 +913,7 @@
             <div class="room-comment-section" id="comment-section-dump-boss"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#dump-2">← 이전 방<br>폐기장 2번방</a>
-              <a class="room-link" href="#top" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;">↑ 처음으로</a>
+              <a class="room-link" href="#top">↑ 처음으로</a>
             </div>
           </div>
         </details>
@@ -911,27 +925,40 @@
 
   <script>
   var _disqusLoaded = false;
-  var _activeRoom = null;
+  var _disqusRoom = null;
   var _roomIds = ['cavern-1','cavern-2','cavern-boss','temple-1','temple-2','temple-boss','altar-1','altar-2','altar-boss','dump-1','dump-2','dump-boss'];
 
-  function loadDisqusForRoom(roomId) {
+  function showRoom(roomId) {
+    if (!roomId || roomId === 'top') roomId = 'cavern-1';
     if (_roomIds.indexOf(roomId) === -1) return;
-    if (_activeRoom === roomId) return;
 
-    var section = document.getElementById('comment-section-' + roomId);
-    if (!section) return;
+    // 모든 방/섹션 숨기기
+    document.querySelectorAll('details.room').forEach(function(r) {
+      r.classList.remove('active');
+    });
+    document.querySelectorAll('section.dungeon').forEach(function(s) {
+      s.classList.remove('active');
+    });
+
+    // 해당 방 표시
+    var room = document.getElementById(roomId);
+    if (!room) return;
+    room.classList.add('active');
+    var dungeonSection = room.closest('section.dungeon');
+    if (dungeonSection) dungeonSection.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Disqus 로드
+    var commentSection = document.getElementById('comment-section-' + roomId);
     var thread = document.getElementById('disqus_thread');
-
-    // 이전 방 댓글 비우기
-    if (_activeRoom) {
-      document.getElementById('comment-section-' + _activeRoom).innerHTML = '';
+    if (_disqusRoom && _disqusRoom !== roomId) {
+      var prev = document.getElementById('comment-section-' + _disqusRoom);
+      if (prev) prev.innerHTML = '';
     }
-
-    section.appendChild(thread);
-    _activeRoom = roomId;
+    if (commentSection) commentSection.appendChild(thread);
+    _disqusRoom = roomId;
 
     var baseUrl = window.location.href.split('#')[0];
-
     if (!_disqusLoaded) {
       _disqusLoaded = true;
       window.disqus_config = function () {
@@ -953,13 +980,23 @@
     }
   }
 
-  // 방 이동 시 자동 로드
-  window.addEventListener('hashchange', function () {
-    loadDisqusForRoom(window.location.hash.replace('#', ''));
+  // 방 이동 링크 인터셉트
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    e.preventDefault();
+    var roomId = link.getAttribute('href').replace('#', '');
+    history.pushState(null, '', '#' + roomId);
+    showRoom(roomId);
   });
 
-  // 페이지 첫 진입 시 자동 로드
-  loadDisqusForRoom(window.location.hash.replace('#', '') || 'cavern-1');
+  // 브라우저 뒤로/앞으로
+  window.addEventListener('popstate', function() {
+    showRoom(window.location.hash.replace('#', '') || 'cavern-1');
+  });
+
+  // 초기 로드
+  showRoom(window.location.hash.replace('#', '') || 'cavern-1');
   </script>
 </body>
 </html>
