@@ -6,17 +6,17 @@
   <title>어비스 지옥 11~15 공략 - 2. 신전 1번방</title>
   <style>
     :root {
-      --bg: #f6f7fb;
-      --card: #ffffff;
-      --text: #20242a;
-      --muted: #667085;
-      --line: #e5e7eb;
-      --accent: #5b6ee1;
-      --accent-soft: #eef0ff;
-      --danger: #dc2626;
-      --prep-bg: #fff7ed;
-      --prep-line: #fed7aa;
-      --prep-text: #9a3412;
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --text: #dde1ec;
+      --muted: #7b839e;
+      --line: #282c3d;
+      --accent: #818cf8;
+      --accent-soft: #1e2040;
+      --danger: #f87171;
+      --prep-bg: #1e150a;
+      --prep-line: #5c2d0a;
+      --prep-text: #fdba74;
     }
 
     * { box-sizing: border-box; }
@@ -86,9 +86,9 @@
       overflow: auto;
       padding: 12px;
       border-radius: 18px;
-      background: #fff;
+      background: var(--card);
       border: 1px solid var(--line);
-      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.2);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
     }
 
     .quick-menu-panel h3 {
@@ -102,7 +102,7 @@
       margin-top: 6px;
       border-radius: 12px;
       text-decoration: none;
-      background: #f8fafc;
+      background: #20243a;
       color: var(--text);
       font-size: 14px;
       font-weight: 800;
@@ -124,8 +124,8 @@
       margin-bottom: 14px;
       padding: 14px 16px;
       border-radius: 18px;
-      background: rgba(238, 240, 255, 0.96);
-      border: 1px solid #dfe3ff;
+      background: rgba(26, 29, 39, 0.97);
+      border: 1px solid var(--line);
       backdrop-filter: blur(10px);
     }
 
@@ -160,7 +160,7 @@
       font-size: 22px;
       font-weight: 900;
       letter-spacing: -0.03em;
-      background: #fff;
+      background: var(--card);
       border-bottom: 1px solid var(--line);
     }
 
@@ -172,7 +172,7 @@
       margin-top: 4px;
       padding: 3px 8px;
       border-radius: 999px;
-      background: #f2f4f7;
+      background: var(--line);
       color: var(--muted);
       font-size: 12px;
       font-weight: 800;
@@ -203,7 +203,7 @@
     }
 
     .prep h4 { color: var(--prep-text); }
-    .block h4 { color: #344054; }
+    .block h4 { color: #a0a8c0; }
 
     .prep-list {
       display: flex;
@@ -218,15 +218,15 @@
       margin: 0;
       padding: 7px 11px;
       border-radius: 999px;
-      background: #ffedd5;
+      background: #3d200a;
       color: var(--prep-text);
       font-size: 14px;
       font-weight: 900;
     }
 
     .block {
-      background: #fafafa;
-      border: 1px solid #eeeeee;
+      background: #181b26;
+      border: 1px solid var(--line);
     }
 
     ul, ol {
@@ -238,7 +238,7 @@
 
     .key {
       background: var(--accent-soft);
-      border: 1px solid #dfe3ff;
+      border: 1px solid var(--line);
       font-size: 16px;
       font-weight: 900;
     }
@@ -256,7 +256,7 @@
       gap: 10px;
       margin: 18px -18px -18px;
       padding: 12px 18px;
-      background: rgba(255, 255, 255, 0.96);
+      background: rgba(22, 25, 36, 0.97);
       border-top: 1px solid var(--line);
       backdrop-filter: blur(10px);
     }
@@ -278,8 +278,8 @@
     }
 
     .room-link.secondary {
-      background: #eef2f7;
-      color: #344054;
+      background: #252839;
+      color: #b5bcd4;
       box-shadow: none;
     }
 
@@ -319,7 +319,7 @@
   
     section.dungeon { display: block !important; }
     div.room { border: 1px solid var(--line); border-radius: 24px; background: var(--card); box-shadow: 0 10px 30px rgba(15,23,42,0.06); overflow: hidden; scroll-margin-top: 76px; }
-    .room-summary { margin: 0; padding: 18px 20px; font-size: 22px; font-weight: 900; letter-spacing: -0.03em; background: #fff; border-bottom: 1px solid var(--line); }
+    .room-summary { margin: 0; padding: 18px 20px; font-size: 22px; font-weight: 900; letter-spacing: -0.03em; background: var(--card); border-bottom: 1px solid var(--line); }
     @media (max-width:520px) { .room-summary { font-size: 20px; } }
     .header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
     .header-row header { flex: 1; margin-bottom: 0; }
@@ -329,8 +329,8 @@
     .dungeon-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .dungeon-title h2 { flex: 1; margin: 0; }
     .room-bullets { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
-    .rb { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 8px; border-radius: 10px; font-size: 13px; font-weight: 900; text-decoration: none; background: rgba(255,255,255,0.6); color: var(--accent); border: 1.5px solid #dfe3ff; transition: background 0.12s; }
-    .rb:hover { background: #fff; }
+    .rb { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 8px; border-radius: 10px; font-size: 13px; font-weight: 900; text-decoration: none; background: rgba(30,32,50,0.8); color: var(--accent); border: 1.5px solid var(--line); transition: background 0.12s; }
+    .rb:hover { background: var(--card); }
     .rb-active { background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }</style>
 </head>
 <body>
@@ -392,13 +392,14 @@
           </div>
         </div></div>
     </section>
-    <div style="margin-top:24px;padding:20px;border:1px solid #e5e7eb;border-radius:24px;background:#fff;">
-      <div style="font-size:15px;font-weight:800;color:#667085;margin-bottom:12px;">&#128172; &#xB313;&#xAE00;</div>
+    <div style="margin-top:24px;padding:20px;border:1px solid var(--line);border-radius:24px;background:var(--card);">
+      <div style="font-size:15px;font-weight:800;color:var(--muted);margin-bottom:12px;">&#128172; &#xB313;&#xAE00;</div>
         <div id="disqus_thread"></div>
   <script>
   var disqus_config = function () {
     this.page.url = 'https://haeinkangcau-png.github.io/abyss-hell-guide/temple-1.html';
     this.page.identifier = 'temple-1';
+    this.page.colorScheme = 'dark';
   };
   (function() {
     var d = document, s = d.createElement('script');
