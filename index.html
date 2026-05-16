@@ -931,7 +931,6 @@
   </div>
 
   <script>
-  var _disqusLoaded = false;
   var _disqusRoom = null;
   var _roomIds = ['cavern-1','cavern-2','cavern-boss','temple-1','temple-2','temple-boss','altar-1','altar-2','altar-boss','dump-1','dump-2','dump-boss'];
 
@@ -961,27 +960,23 @@
     if (label) label.textContent = '💬 ' + room.querySelector('summary').textContent.trim() + ' 댓글';
 
     _disqusRoom = roomId;
-    var baseUrl = window.location.href.split('#')[0];
+    var pageUrl = 'https://haeinkangcau-png.github.io/abyss-hell-guide/rooms/' + roomId;
 
-    if (!_disqusLoaded) {
-      _disqusLoaded = true;
-      window.disqus_config = function () {
-        this.page.url = baseUrl + '#' + roomId;
-        this.page.identifier = 'abyss-guide-' + roomId;
-      };
-      var d = document, s = d.createElement('script');
-      s.src = 'https://abyss-hell.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', +new Date());
-      (d.head || d.body).appendChild(s);
-    } else {
-      DISQUS.reset({
-        reload: true,
-        config: function () {
-          this.page.url = baseUrl + '#' + roomId;
-          this.page.identifier = 'abyss-guide-' + roomId;
-        }
-      });
-    }
+    // 기존 Disqus 완전 제거 후 재로드
+    document.getElementById('disqus_thread').innerHTML = '';
+    var oldScript = document.querySelector('script[src*="abyss-hell.disqus.com"]');
+    if (oldScript) oldScript.parentNode.removeChild(oldScript);
+    window.DISQUS = undefined;
+
+    window.disqus_config = function () {
+      this.page.url = pageUrl;
+      this.page.identifier = 'abyss-guide-' + roomId;
+    };
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://abyss-hell.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    document.body.appendChild(s);
   }
 
   // 방 이동 링크 인터셉트
