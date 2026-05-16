@@ -318,9 +318,7 @@
     }
   
     details.room { display: block !important; }
-    section.dungeon { display: block !important; }
-    #cusdis_thread { min-height: 500px; overflow: visible !important; }
-    #cusdis_thread iframe { width: 100% !important; min-height: 500px !important; display: block !important; border: none !important; overflow: visible !important; }</style>
+    section.dungeon { display: block !important; }</style>
 </head>
 <body>
   <div class="container">
@@ -399,16 +397,21 @@
           </div>
         </details></div>
     </section>
-    <div style="margin-top:24px;padding:16px 6px 6px 6px;border:1px solid #e5e7eb;border-radius:24px;background:#fff;">
+    <div style="margin-top:24px;padding:20px;border:1px solid #e5e7eb;border-radius:24px;background:#fff;">
       <div style="font-size:15px;font-weight:800;color:#667085;margin-bottom:12px;">&#128172; &#xB313;&#xAE00;</div>
-        <div id="cusdis_thread"
-    data-host="https://cusdis.com"
-    data-app-id="0f63877a-7904-45cf-9b2b-7bc0d429c8cf"
-    data-page-id="dump-2"
-    data-page-url="https://haeinkangcau-png.github.io/abyss-hell-guide/dump-2.html"
-    data-page-title="2번방"
-  ></div>
-  <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+        <div id="disqus_thread"></div>
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://haeinkangcau-png.github.io/abyss-hell-guide/dump-2.html';
+    this.page.identifier = 'dump-2';
+  };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://abyss-hell.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+  </script>
     </div>
   </div>
 </body>
