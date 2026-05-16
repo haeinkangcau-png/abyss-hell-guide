@@ -1,0 +1,435 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>?대퉬??吏??11~15 - 4. 폐기장 1번방</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #20242a;
+      --muted: #667085;
+      --line: #e5e7eb;
+      --accent: #5b6ee1;
+      --accent-soft: #eef0ff;
+      --danger: #dc2626;
+      --prep-bg: #fff7ed;
+      --prep-line: #fed7aa;
+      --prep-text: #9a3412;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      padding: 24px 16px 64px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .quick-menu {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 100;
+    }
+
+    .quick-menu summary {
+      width: 54px;
+      height: 54px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      list-style: none;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.25);
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .quick-menu summary::-webkit-details-marker { display: none; }
+
+    .quick-menu-panel {
+      position: absolute;
+      right: 0;
+      bottom: 66px;
+      width: min(300px, calc(100vw - 28px));
+      max-height: 70vh;
+      overflow: auto;
+      padding: 12px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.2);
+    }
+
+    .quick-menu-panel h3 {
+      margin: 4px 6px 10px;
+      font-size: 15px;
+    }
+
+    .quick-menu-panel a {
+      display: block;
+      padding: 10px 12px;
+      margin-top: 6px;
+      border-radius: 12px;
+      text-decoration: none;
+      background: #f8fafc;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .quick-menu-panel a:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    section.dungeon {
+      margin: 24px 0 32px;
+    }
+
+    .dungeon-title {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin-bottom: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(238, 240, 255, 0.96);
+      border: 1px solid #dfe3ff;
+      backdrop-filter: blur(10px);
+    }
+
+    .dungeon-title h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+
+    .rooms {
+      display: grid;
+      gap: 18px;
+    }
+
+    details.room {
+      display: block;
+      min-height: calc(100vh - 118px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--card);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      overflow: hidden;
+      scroll-margin-top: 76px;
+    }
+
+    details.room:not([open]) { min-height: auto; }
+
+    details.room > summary {
+      padding: 18px 20px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    details.room > summary::-webkit-details-marker { display: none; }
+
+    details.room > summary::after {
+      content: "접기/펼치기";
+      float: right;
+      margin-top: 4px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #f2f4f7;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .room-body {
+      padding: 18px;
+    }
+
+    .prep,
+    .block,
+    .key {
+      border-radius: 18px;
+      padding: 15px 16px;
+      margin-bottom: 12px;
+    }
+
+    .prep {
+      background: var(--prep-bg);
+      border: 1px solid var(--prep-line);
+    }
+
+    .prep h4,
+    .block h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .prep h4 { color: var(--prep-text); }
+    .block h4 { color: #344054; }
+
+    .prep-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .prep-list li {
+      margin: 0;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #ffedd5;
+      color: var(--prep-text);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .block {
+      background: #fafafa;
+      border: 1px solid #eeeeee;
+    }
+
+    ul, ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    li + li { margin-top: 5px; }
+
+    .key {
+      background: var(--accent-soft);
+      border: 1px solid #dfe3ff;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .danger {
+      color: var(--danger);
+      font-weight: 900;
+    }
+
+    .room-actions {
+      position: sticky;
+      bottom: 0;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 10px;
+      margin: 18px -18px -18px;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.96);
+      border-top: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    .room-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 62px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      text-decoration: none;
+      text-align: center;
+      background: var(--accent);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(91, 110, 225, 0.22);
+    }
+
+    .room-link.secondary {
+      background: #eef2f7;
+      color: #344054;
+      box-shadow: none;
+    }
+
+    @media (max-width: 520px) {
+      body { padding: 18px 12px 64px; }
+      h1 { font-size: 24px; }
+      .dungeon-title h2 { font-size: 20px; }
+      details.room { min-height: calc(100vh - 104px); }
+      details.room > summary { font-size: 20px; }
+      .room-actions { grid-template-columns: 1fr 1fr; }
+      .room-link { min-height: 58px; font-size: 15px; }
+    }
+
+    .comment-toggle-btn {
+      display: block;
+      width: 100%;
+      margin: 4px 0 0;
+      padding: 11px 16px;
+      border: 1.5px dashed #c7d2fe;
+      border-radius: 14px;
+      background: #f8f9ff;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: left;
+      letter-spacing: -0.01em;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .comment-toggle-btn:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
+    .room-comment-section {
+      margin: 10px 0 0;
+    }
+
+    /* 방 단일 표시 */
+    details.room {
+      display: none;
+    }
+    details.room.active {
+      display: block;
+    }
+    section.dungeon {
+      display: none;
+    }
+    section.dungeon.active {
+      display: block;
+    }
+
+    .room-comment-fixed {
+      margin-top: 24px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--card);
+    }
+    .comment-room-label {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+  
+    details.room { display: block !important; }
+    section.dungeon { display: block !important; }</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>?대퉬??吏??11~15 怨듬왂</h1>
+      <p class="subtitle">?怨듬룞 1踰덈갑遺???쒖감 吏꾪뻾??/p>
+      <p class="subtitle" style="font-size:12px;margin-top:6px;opacity:0.8;">湲곕낯 異쒖쿂: <a href="https://youtu.be/E6WqsuSFWGg?si=PNdSKxQuqY1YXaDf" target="_blank" rel="noopener noreferrer" style="color:inherit;">YouTube 怨듬왂 ?곸긽 (誘쇱감)</a> 湲곕컲 ?ш뎄??/p>
+      <details class="quick-menu">
+        <summary>☰</summary>
+        <div class="quick-menu-panel">
+          <h3>전체 이동</h3>
+          <a href="cavern-1.html">대공동 1번방</a>
+          <a href="cavern-2.html">대공동 2번방</a>
+          <a href="cavern-boss.html">대공동 보스방</a>
+          <a href="temple-1.html">신전 1번방</a>
+          <a href="temple-2.html">신전 2번방</a>
+          <a href="temple-boss.html">신전 보스방</a>
+          <a href="altar-1.html">신단 1번방</a>
+          <a href="altar-2.html">신단 2번방</a>
+          <a href="altar-boss.html">신단 보스방</a>
+          <a href="dump-1.html">폐기장 1번방</a>
+          <a href="dump-2.html">폐기장 2번방</a>
+          <a href="dump-boss.html">폐기장 보스방</a>
+        </div>
+      </details>
+    </header>
+    <section class="dungeon">
+      <div class="dungeon-title"><h2>4. 폐기장</h2></div>
+      <div class="rooms"><details class="room" id="dump-1" open>
+          <summary>1번방</summary>
+          <div class="room-body">
+            <div class="prep">
+              <h4>준비물</h4>
+              <ul class="prep-list">
+                <li>싹쓸바람</li>
+                <li>인내의 토템 유도</li>
+              </ul>
+            </div>
+            <div class="block">
+              <h4>변경점</h4>
+              <ul>
+                <li>마지막 웨이브에서 <strong>주술사 패턴 변경</strong></li>
+                <li><strong>견습 주술사 소환 패턴 추가</strong></li>
+              </ul>
+            </div>
+            <div class="block">
+              <h4>공략</h4>
+              <ul>
+                <li>대부분 <strong>싹쓸바람을 채용</strong>하게 되므로 모아서 한 번에 처리</li>
+                <li>딜이 애매해서 주술사의 브레이크를 많이 보게 되는 상황이라면 <strong>인내의 토템 쪽으로 싹쓸바람을 유도해 함께 파괴</strong></li>
+              </ul>
+            </div>
+            <div class="block">
+              <h4>효과</h4>
+              <ul>
+                <li>토템 파괴와 동시에 주술사 브레이크</li>
+                <li>시간 지체의 큰 원인인 주술사 방어 버프 대응 가능</li>
+              </ul>
+            </div>
+            <div class="key">핵심: 싹쓸 채용 / 토템 함께 파괴</div>
+            <div class="room-actions">
+              <a class="room-link secondary" href="altar-boss.html">← 이전 방<br>신단 보스방</a>
+              <a class="room-link" href="dump-2.html">다음 방 →<br>폐기장 2번방</a>
+            </div>
+          </div>
+        </details></div>
+    </section>
+    <div style="margin-top:24px;padding:20px;border:1px solid #e5e7eb;border-radius:24px;background:#fff;">
+      <div style="font-size:15px;font-weight:800;color:#667085;margin-bottom:12px;">?뮠 ??諛??볤?</div>
+      <div id="disqus_thread"></div>
+    </div>
+  </div>
+  <script>
+  var disqus_config = function () {
+    this.page.url = window.location.href;
+    this.page.identifier = 'abyss-guide-dump-1';
+  };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://abyss-hell.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+  </script>
+</body>
+</html>
