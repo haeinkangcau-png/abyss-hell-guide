@@ -330,6 +330,20 @@
     section.dungeon.active {
       display: block;
     }
+
+    .room-comment-fixed {
+      margin-top: 24px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--card);
+    }
+    .comment-room-label {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
   </style>
 </head>
 <body>
@@ -394,7 +408,6 @@
               </ul>
             </div>
             <div class="key">핵심: 영혼 지배자 우선 처리</div>
-            <div class="room-comment-section" id="comment-section-cavern-1"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#top">↑ 처음</a>
               <a class="room-link" href="#cavern-2">다음 방 →<br>대공동 2번방</a>
@@ -421,7 +434,6 @@
               </ul>
             </div>
             <div class="key">핵심: 중앙 전투</div>
-            <div class="room-comment-section" id="comment-section-cavern-2"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#cavern-1">← 이전 방<br>대공동 1번방</a>
               <a class="room-link" href="#cavern-boss">다음 방 →<br>대공동 보스방</a>
@@ -465,7 +477,6 @@
               </ul>
             </div>
             <div class="key">핵심: 번개 마력구 유지</div>
-            <div class="room-comment-section" id="comment-section-cavern-boss"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#cavern-2">← 이전 방<br>대공동 2번방</a>
               <a class="room-link" href="#temple-1">다음 던전 →<br>신전 1번방</a>
@@ -508,7 +519,6 @@
               </ul>
             </div>
             <div class="key">핵심: 도끼 데미지 주의</div>
-            <div class="room-comment-section" id="comment-section-temple-1"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#cavern-boss">← 이전 방<br>대공동 보스방</a>
               <a class="room-link" href="#temple-2">다음 방 →<br>신전 2번방</a>
@@ -558,7 +568,6 @@
               </ul>
             </div>
             <div class="key"><span class="danger">핵심:</span> 같은 색 기둥 금지</div>
-            <div class="room-comment-section" id="comment-section-temple-2"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#temple-1">← 이전 방<br>신전 1번방</a>
               <a class="room-link" href="#temple-boss">다음 방 →<br>신전 보스방</a>
@@ -597,7 +606,6 @@
               </ul>
             </div>
             <div class="key">핵심: 광역 처리 중요</div>
-            <div class="room-comment-section" id="comment-section-temple-boss"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#temple-2">← 이전 방<br>신전 2번방</a>
               <a class="room-link" href="#altar-1">다음 던전 →<br>신단 1번방</a>
@@ -637,7 +645,6 @@
               </ul>
             </div>
             <div class="key">핵심: 딜 부족 시 패턴 길어짐</div>
-            <div class="room-comment-section" id="comment-section-altar-1"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#temple-boss">← 이전 방<br>신전 보스방</a>
               <a class="room-link" href="#altar-2">다음 방 →<br>신단 2번방</a>
@@ -671,7 +678,6 @@
               </ul>
             </div>
             <div class="key">핵심: 역할 분담</div>
-            <div class="room-comment-section" id="comment-section-altar-2"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#altar-1">← 이전 방<br>신단 1번방</a>
               <a class="room-link" href="#altar-boss">다음 방 →<br>신단 보스방</a>
@@ -728,7 +734,6 @@
               </ul>
             </div>
             <div class="key"><span class="danger">핵심:</span> 순응의 창은 브레이크 때만</div>
-            <div class="room-comment-section" id="comment-section-altar-boss"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#altar-2">← 이전 방<br>신단 2번방</a>
               <a class="room-link" href="#dump-1">다음 던전 →<br>폐기장 1번방</a>
@@ -777,7 +782,6 @@
               </ul>
             </div>
             <div class="key">핵심: 싹쓸 채용 / 토템 함께 파괴</div>
-            <div class="room-comment-section" id="comment-section-dump-1"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#altar-boss">← 이전 방<br>신단 보스방</a>
               <a class="room-link" href="#dump-2">다음 방 →<br>폐기장 2번방</a>
@@ -825,7 +829,6 @@
               </ul>
             </div>
             <div class="key"><span class="danger">핵심:</span> 풍차 주의</div>
-            <div class="room-comment-section" id="comment-section-dump-2"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#dump-1">← 이전 방<br>폐기장 1번방</a>
               <a class="room-link" href="#dump-boss">다음 방 →<br>폐기장 보스방</a>
@@ -910,7 +913,6 @@
               </ul>
             </div>
             <div class="key"><span class="danger">핵심:</span> 정화조 아끼며 안정 운영 / 워터파크 대응</div>
-            <div class="room-comment-section" id="comment-section-dump-boss"></div>
             <div class="room-actions">
               <a class="room-link secondary" href="#dump-2">← 이전 방<br>폐기장 2번방</a>
               <a class="room-link" href="#top">↑ 처음으로</a>
@@ -921,7 +923,12 @@
     </section>
   </div>
 
-  <div id="disqus_thread" style="padding: 0;"></div>
+  <div class="container">
+    <div class="room-comment-fixed">
+      <div id="comment-room-label" class="comment-room-label"></div>
+      <div id="disqus_thread"></div>
+    </div>
+  </div>
 
   <script>
   var _disqusLoaded = false;
@@ -931,6 +938,7 @@
   function showRoom(roomId) {
     if (!roomId || roomId === 'top') roomId = 'cavern-1';
     if (_roomIds.indexOf(roomId) === -1) return;
+    if (_disqusRoom === roomId) return;
 
     // 모든 방/섹션 숨기기
     document.querySelectorAll('details.room').forEach(function(r) {
@@ -948,17 +956,13 @@
     if (dungeonSection) dungeonSection.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Disqus 로드
-    var commentSection = document.getElementById('comment-section-' + roomId);
-    var thread = document.getElementById('disqus_thread');
-    if (_disqusRoom && _disqusRoom !== roomId) {
-      var prev = document.getElementById('comment-section-' + _disqusRoom);
-      if (prev) prev.innerHTML = '';
-    }
-    if (commentSection) commentSection.appendChild(thread);
-    _disqusRoom = roomId;
+    // 댓글 라벨 업데이트
+    var label = document.getElementById('comment-room-label');
+    if (label) label.textContent = '💬 ' + room.querySelector('summary').textContent.trim() + ' 댓글';
 
+    _disqusRoom = roomId;
     var baseUrl = window.location.href.split('#')[0];
+
     if (!_disqusLoaded) {
       _disqusLoaded = true;
       window.disqus_config = function () {
